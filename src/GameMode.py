@@ -1,4 +1,4 @@
-class GameMode:
+class gameMode:
     def __init__(self):
         pass
 
@@ -7,17 +7,17 @@ class GameMode:
 
     # Add other game mode-related methods here
 
-class GameMode301(GameMode):
+class gameMode301(gameMode):
     def __init__(self):
         super().__init__()
         # Implement 301 game mode-specific logic here
 
-class GameMode501(GameMode):
+class gameMode501(gameMode):
     def __init__(self):
         super().__init__()
         # Implement 501 game mode-specific logic here
 
-class GameModeCricket(GameMode):
+class gameModeCricket(gameMode):
     def __init__(self):
         super().__init__()
         # Implement Cricket game mode-specific logic here
