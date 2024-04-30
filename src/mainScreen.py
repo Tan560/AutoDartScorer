@@ -116,38 +116,52 @@ class MainScreen:
 
         # Draw the numbered text fields
         for i, text_field in enumerate(self.text_fields):
-                # Draw text field rectangle
-                pygame.draw.rect(self.screen, (0, 0, 0), (525 * self.scale_factor, (50 + i * (self.label_font_size + self.spacing)) * self.scale_factor, 200 * self.scale_factor, self.label_font_size * self.scale_factor), 2)
+            # Draw text field rectangle
+            pygame.draw.rect(self.screen, (0, 0, 0), (525 * self.scale_factor, (50 + i * (self.label_font_size + self.spacing)) * self.scale_factor, 200 * self.scale_factor, self.label_font_size * self.scale_factor), 2)
 
-                # Draw the label for text fields
-                label_text = self.font.render("Team/Player", True, (0, 0, 0))
-                label_text_rect = label_text.get_rect(topleft=(480 * self.scale_factor, 0 * self.scale_factor))  # Adjusted position based on scale factor
-                self.screen.blit(label_text, label_text_rect)
+            # Draw the label for text fields
+            label_text = self.font.render("Team/Player", True, (0, 0, 0))
+            label_text_rect = label_text.get_rect(topleft=(480 * self.scale_factor, 0 * self.scale_factor))  # Adjusted position based on scale factor
+            self.screen.blit(label_text, label_text_rect)
 
-                # Highlight active text field
-                if self.active_text_field == i:
-                    pygame.draw.rect(self.screen, (255, 255, 255), (525 * self.scale_factor, (50 + i * (self.label_font_size + self.spacing)) * self.scale_factor, 200 * self.scale_factor, self.label_font_size * self.scale_factor), 2)
+            # Highlight active text field
+            if self.active_text_field == i:
+                pygame.draw.rect(self.screen, (255, 255, 255), (525 * self.scale_factor, (50 + i * (self.label_font_size + self.spacing)) * self.scale_factor, 200 * self.scale_factor, self.label_font_size * self.scale_factor), 2)
 
-                # Render text in the text fields
-                text_surface = self.font.render(text_field, True, (0, 0, 0))
-                text_rect = text_surface.get_rect(topleft=((525 + 5) * self.scale_factor, (50 + i * (self.label_font_size + self.spacing)) * self.scale_factor))
-                self.screen.blit(text_surface, text_rect)
+            # Render text in the text fields
+            text_surface = self.font.render(text_field, True, (0, 0, 0))
+            text_rect = text_surface.get_rect(topleft=((525 + 5) * self.scale_factor, (50 + i * (self.label_font_size + self.spacing)) * self.scale_factor))
+            self.screen.blit(text_surface, text_rect)
 
+        # Draw buttons with beveled appearance
+        start_button_color = (100, 100, 100)
+        reset_button_color = (100, 100, 100)
+        
+        if self.start_button_rect.collidepoint(pygame.mouse.get_pos()):
+            start_button_color = (50, 50, 50)  # Darker color when mouse hovers over start button
+            if pygame.mouse.get_pressed()[0]:  # If left mouse button is pressed
+                start_button_color = (140, 140, 140)  # Darker color when button is pressed
+            
+        if self.reset_button_rect.collidepoint(pygame.mouse.get_pos()):
+            reset_button_color = (50, 50, 50)  # Darker color when mouse hovers over reset button
+            if pygame.mouse.get_pressed()[0]:  # If left mouse button is pressed
+                reset_button_color = (140, 140, 140)  # Darker color when button is pressed
+        
+        pygame.draw.rect(self.screen, start_button_color, self.start_button_rect)
+        pygame.draw.rect(self.screen, (140, 140, 140), self.start_button_rect.inflate(-3, -3))
+        start_text = self.font.render("Start", True, (255, 255, 255))
+        start_text_rect = start_text.get_rect(center=self.start_button_rect.center)
+        self.screen.blit(start_text, start_text_rect)
 
-                # Draw buttons with beveled appearance
-                pygame.draw.rect(self.screen, (100, 100, 100), self.start_button_rect)
-                pygame.draw.rect(self.screen, (140, 140, 140), self.start_button_rect.inflate(-3, -3))
-                start_text = self.font.render("Start", True, (255, 255, 255))
-                start_text_rect = start_text.get_rect(center=self.start_button_rect.center)
-                self.screen.blit(start_text, start_text_rect)
-
-                pygame.draw.rect(self.screen,  (100, 100, 100), self.reset_button_rect)
-                pygame.draw.rect(self.screen, (140, 140, 140), self.reset_button_rect.inflate(-3, -3))
-                reset_text = self.font.render("Reset", True, (255, 255, 255))
-                reset_text_rect = reset_text.get_rect(center=self.reset_button_rect.center)
-                self.screen.blit(reset_text, reset_text_rect)
+        pygame.draw.rect(self.screen,  reset_button_color, self.reset_button_rect)
+        pygame.draw.rect(self.screen, (140, 140, 140), self.reset_button_rect.inflate(-3, -3))
+        reset_text = self.font.render("Reset", True, (255, 255, 255))
+        reset_text_rect = reset_text.get_rect(center=self.reset_button_rect.center)
+        self.screen.blit(reset_text, reset_text_rect)
 
         pygame.display.flip()
+
+
 
     def run(self):
         while True:
