@@ -85,18 +85,12 @@ class MainScreen:
                     # Add your reset game logic here
 
             elif event.type == KEYDOWN:
-                print("KeyDown")
                 if self.active_text_field is not None:
-                    print("Active Text field is not none")
-                    print("Current text:", self.text_fields[self.active_text_field])
                     if event.key == K_BACKSPACE:
                         self.text_fields[self.active_text_field] = self.text_fields[self.active_text_field][:-1]
-                        print("Backspace pressed")
-                        print("Updated text:", self.text_fields[self.active_text_field])
                     else:
                         self.text_fields[self.active_text_field] += event.unicode
-                        print("Character pressed:", event.unicode)
-                        print("Updated text:", self.text_fields[self.active_text_field])
+
 
             elif event.type == VIDEORESIZE:
                 self.screen = pygame.display.set_mode((event.w, event.h), RESIZABLE)
@@ -120,24 +114,24 @@ class MainScreen:
             checkbox_y = (350 + i * (self.label_font_size + self.spacing)) * self.scale_factor
             self.draw_checkbox(self.screen, checkbox_x, checkbox_y, self.selected_game_mode == mode)
 
-        print("Updated text fields:", self.text_fields)  # Check the updated text fields
         # Draw the numbered text fields
         for i, text_field in enumerate(self.text_fields):
-            print("Rendering text field:", text_field)  # Print the text being rendere
-            # Draw text field rectangle
-            pygame.draw.rect(self.screen, (0, 0, 0), (525 * self.scale_factor, (50 + i * (self.label_font_size + self.spacing)) * self.scale_factor, 200 * self.scale_factor, self.label_font_size * self.scale_factor), 2)
-            text_field_label = self.font.render(f"#{i + 1}", True, (0, 0, 0))  # Corrected indexing
-            text_field_label_rect = text_field_label.get_rect(topleft=(450 * self.scale_factor, (50 + i * (self.label_font_size + self.spacing)) * self.scale_factor))
-            self.screen.blit(text_field_label, text_field_label_rect)
+                # Draw text field rectangle
+                pygame.draw.rect(self.screen, (0, 0, 0), (525 * self.scale_factor, (50 + i * (self.label_font_size + self.spacing)) * self.scale_factor, 200 * self.scale_factor, self.label_font_size * self.scale_factor), 2)
 
-            # Draw the label for text fields
-            label_text = self.font.render("Team/Player", True, (0, 0, 0))
-            label_text_rect = label_text.get_rect(topleft=(480 * self.scale_factor, 0 * self.scale_factor))  # Adjusted position based on scale factor
-            self.screen.blit(label_text, label_text_rect)
+                # Draw the label for text fields
+                label_text = self.font.render("Team/Player", True, (0, 0, 0))
+                label_text_rect = label_text.get_rect(topleft=(480 * self.scale_factor, 0 * self.scale_factor))  # Adjusted position based on scale factor
+                self.screen.blit(label_text, label_text_rect)
 
-            # Highlight active text field
-            if self.active_text_field == i:
-                pygame.draw.rect(self.screen, (255, 255, 255), (525 * self.scale_factor, (50 + i * (self.label_font_size + self.spacing)) * self.scale_factor, 200 * self.scale_factor, self.label_font_size * self.scale_factor), 2)
+                # Highlight active text field
+                if self.active_text_field == i:
+                    pygame.draw.rect(self.screen, (255, 255, 255), (525 * self.scale_factor, (50 + i * (self.label_font_size + self.spacing)) * self.scale_factor, 200 * self.scale_factor, self.label_font_size * self.scale_factor), 2)
+
+                # Render text in the text fields
+                text_surface = self.font.render(text_field, True, (0, 0, 0))
+                text_rect = text_surface.get_rect(topleft=((525 + 5) * self.scale_factor, (50 + i * (self.label_font_size + self.spacing)) * self.scale_factor))
+                self.screen.blit(text_surface, text_rect)
 
         # Draw buttons with beveled appearance
         pygame.draw.rect(self.screen, (100, 100, 100), self.start_button_rect)
