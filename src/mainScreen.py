@@ -5,7 +5,7 @@ from pygame.locals import *
 class MainScreen:
     def __init__(self):
         self.target_width = 1920
-        self.target_height = 900
+        self.target_height = 1080
         self.screen = pygame.display.set_mode((self.target_width, self.target_height), RESIZABLE)  # Initial resolution
         pygame.display.set_caption("Dart Scoring Game")
 
@@ -82,7 +82,7 @@ class MainScreen:
 
                 if self.reset_button_rect.collidepoint(mouse_x, mouse_y):
                     print("Reset button clicked")
-                    # Add your reset game logic here
+                    self.text_fields = ["" for _ in range(10)]
 
             elif event.type == KEYDOWN:
                 if self.active_text_field is not None:
@@ -133,11 +133,19 @@ class MainScreen:
                 text_rect = text_surface.get_rect(topleft=((525 + 5) * self.scale_factor, (50 + i * (self.label_font_size + self.spacing)) * self.scale_factor))
                 self.screen.blit(text_surface, text_rect)
 
-        # Draw buttons with beveled appearance
-        pygame.draw.rect(self.screen, (100, 100, 100), self.start_button_rect)
-        pygame.draw.rect(self.screen, (140, 140, 140), self.start_button_rect.inflate(-3, -3))
-        pygame.draw.rect(self.screen,  (100, 100, 100), self.reset_button_rect)
-        pygame.draw.rect(self.screen, (140, 140, 140), self.reset_button_rect.inflate(-3, -3))
+
+                # Draw buttons with beveled appearance
+                pygame.draw.rect(self.screen, (100, 100, 100), self.start_button_rect)
+                pygame.draw.rect(self.screen, (140, 140, 140), self.start_button_rect.inflate(-3, -3))
+                start_text = self.font.render("Start", True, (255, 255, 255))
+                start_text_rect = start_text.get_rect(center=self.start_button_rect.center)
+                self.screen.blit(start_text, start_text_rect)
+
+                pygame.draw.rect(self.screen,  (100, 100, 100), self.reset_button_rect)
+                pygame.draw.rect(self.screen, (140, 140, 140), self.reset_button_rect.inflate(-3, -3))
+                reset_text = self.font.render("Reset", True, (255, 255, 255))
+                reset_text_rect = reset_text.get_rect(center=self.reset_button_rect.center)
+                self.screen.blit(reset_text, reset_text_rect)
 
         pygame.display.flip()
 
