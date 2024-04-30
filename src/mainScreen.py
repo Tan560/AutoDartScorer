@@ -8,7 +8,7 @@ class MainScreen:
         self.width = 800
         self.height = 600
         self.screen = pygame.display.set_mode((self.width, self.height))
-        pygame.display.set_caption("Dart Scoring Game")
+        pygame.display.set_caption("Auto Dart Scoring")
 
         self.game_mode = None  # Placeholder for the selected game mode
         self.visionSys = visionSystem.visionSystem()
@@ -29,6 +29,6 @@ class MainScreen:
 
             self.screen.fill((255, 255, 255))  # Fill screen with white color
             # Add main screen elements (buttons, text, etc.) here
-            #processed_frame = self.visionSys.detect_dartboard()
+            processed_frame = self.visionSys.detect_dartboard()
 
             pygame.display.flip()  # Update the display
