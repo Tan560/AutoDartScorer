@@ -13,7 +13,7 @@ class MainScreen:
 
     def draw_checkbox(self, surface, x, y, width, height, checked):
         # Draw the checkbox rectangle
-        pygame.draw.rect(surface, (255, 255, 255), (x, y, width, height), 2)
+        pygame.draw.rect(surface, (0, 0, 0), (x, y, width, height), 2)
 
         # If checkbox is checked, draw the check mark
         if checked:
@@ -47,7 +47,7 @@ class MainScreen:
                             checkbox_y + 2 * checkbox_spacing <= mouse_y <= checkbox_y + checkbox_height + 2 * checkbox_spacing:
                         self.selected_game_mode = "Cricket"
 
-            self.screen.fill((255, 255, 255))
+            self.screen.fill((110, 150, 150))
 
             # Draw the checkboxes
             self.draw_checkbox(self.screen, checkbox_x, checkbox_y, checkbox_width, checkbox_height, self.selected_game_mode == "301")
