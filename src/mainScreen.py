@@ -5,7 +5,7 @@ from pygame.locals import *
 class MainScreen:
     def __init__(self):
         self.target_width = 1920
-        self.target_height = 1080
+        self.target_height = 900
         self.screen = pygame.display.set_mode((self.target_width, self.target_height), RESIZABLE)  # Initial resolution
         pygame.display.set_caption("Dart Scoring Game")
 
@@ -20,6 +20,12 @@ class MainScreen:
 
         self.text_fields = ["" for _ in range(10)]
         self.active_text_field = None
+
+        # Button properties
+        self.button_width = 120
+        self.button_height = 50
+        self.start_button_rect = pygame.Rect(1000 * self.scale_factor, 300 * self.scale_factor, self.button_width * self.scale_factor, self.button_height * self.scale_factor)
+        self.reset_button_rect = pygame.Rect(1000 * self.scale_factor, 400 * self.scale_factor, self.button_width * self.scale_factor, self.button_height * self.scale_factor)
 
     def draw_checkbox(self, surface, x, y, checked):
         # Draw the checkbox rectangle
@@ -38,6 +44,10 @@ class MainScreen:
         self.font = pygame.font.Font(None, int(self.label_font_size * self.scale_factor))
         self.checkbox_size = int(20 * self.scale_factor)
 
+        # Update button sizes and positions based on scale factor
+        self.start_button_rect = pygame.Rect(1500 * self.scale_factor, 100 * self.scale_factor, self.button_width * self.scale_factor, self.button_height * self.scale_factor)
+        self.reset_button_rect = pygame.Rect(1500 * self.scale_factor, 200 * self.scale_factor, self.button_width * self.scale_factor, self.button_height * self.scale_factor)
+
     def run(self):
         while True:
             for event in pygame.event.get():
@@ -49,7 +59,7 @@ class MainScreen:
 
                     # Check if mouse click is within the checkboxes' area
                     for i, mode in enumerate(["301", "501", "Cricket"]):
-                        checkbox_x = 100 * self.scale_factor
+                        checkbox_x = 100 * self.scale_factor + (self.checkbox_size + 10) * self.scale_factor
                         checkbox_y = (350 + i * (self.label_font_size + self.spacing)) * self.scale_factor
                         if checkbox_x <= mouse_x <= checkbox_x + self.checkbox_size * self.scale_factor and \
                                 checkbox_y <= mouse_y <= checkbox_y + self.checkbox_size * self.scale_factor:
@@ -65,6 +75,15 @@ class MainScreen:
                         if text_field_x <= mouse_x <= text_field_x + text_field_width and \
                                 text_field_y <= mouse_y <= text_field_y + text_field_height:
                             self.active_text_field = i
+
+                    # Check if mouse click is within the buttons' area
+                    if self.start_button_rect.collidepoint(mouse_x, mouse_y):
+                        print("Start button clicked")
+                        # Add your start game logic here
+
+                    if self.reset_button_rect.collidepoint(mouse_x, mouse_y):
+                        print("Reset button clicked")
+                        # Add your reset game logic here
 
                 elif event.type == KEYDOWN:
                     if self.active_text_field is not None:
@@ -86,7 +105,7 @@ class MainScreen:
                 text_rect = text_surface.get_rect(topleft=(175 * self.scale_factor, (350 + i * (self.label_font_size + self.spacing)) * self.scale_factor))
                 self.screen.blit(text_surface, text_rect)
 
-                checkbox_x = 100 * self.scale_factor
+                checkbox_x = 100 * self.scale_factor + (self.checkbox_size + 10) * self.scale_factor
                 checkbox_y = (350 + i * (self.label_font_size + self.spacing)) * self.scale_factor
                 self.draw_checkbox(self.screen, checkbox_x, checkbox_y, self.selected_game_mode == mode)
 
@@ -108,10 +127,11 @@ class MainScreen:
                 if self.active_text_field == i:
                     pygame.draw.rect(self.screen, (255, 255, 255), (525 * self.scale_factor, (50 + i * (self.label_font_size + self.spacing)) * self.scale_factor, 200 * self.scale_factor, self.label_font_size * self.scale_factor), 2)
 
-                # Render text in the text fields
-                text_surface = self.font.render(text_field, True, (0, 0, 0))
-                text_rect = text_surface.get_rect(topleft=((525 + 5) * self.scale_factor, (50 + i * (self.label_font_size + self.spacing)) * self.scale_factor))
-                self.screen.blit(text_surface, text_rect)
+            # Draw buttons with beveled appearance
+            pygame.draw.rect(self.screen, (100, 100, 100), self.start_button_rect)
+            pygame.draw.rect(self.screen, (140, 140, 140), self.start_button_rect.inflate(-3, -3))
+            pygame.draw.rect(self.screen,  (100, 100, 100), self.reset_button_rect)
+            pygame.draw.rect(self.screen, (140, 140, 140), self.reset_button_rect.inflate(-3, -3))
 
             pygame.display.flip()
             self.clock.tick(60)
