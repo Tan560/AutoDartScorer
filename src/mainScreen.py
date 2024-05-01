@@ -84,11 +84,9 @@ class MainScreen:
 
                 # Check if mouse click is within the buttons' area
                 if self.start_button_rect.collidepoint(mouse_x, mouse_y):
-                    print("Start button clicked")
                     self.selected_game_mode.game_mode_screen()
 
                 if self.reset_button_rect.collidepoint(mouse_x, mouse_y):
-                    print("Reset button clicked")
                     self.text_fields = ["" for _ in range(10)]
 
             elif event.type == KEYDOWN:
