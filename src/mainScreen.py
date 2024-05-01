@@ -2,6 +2,8 @@ import pygame
 import sys
 from pygame.locals import *
 
+from gameMode import gameMode, gameMode301
+
 class MainScreen:
     def __init__(self):
         self.target_width = 1920
@@ -9,7 +11,7 @@ class MainScreen:
         self.screen = pygame.display.set_mode((self.target_width, self.target_height), RESIZABLE)  # Initial resolution
         pygame.display.set_caption("Dart Scoring Game")
 
-        self.selected_game_mode = None
+        self.selected_game_mode = gameMode301
         self.scale_factor = 1.5  # Scale factor for resizing elements
         self.label_font_size = 36
         self.checkbox_size = 20
