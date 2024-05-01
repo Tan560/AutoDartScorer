@@ -115,14 +115,14 @@ class MainScreen:
             self.draw_checkbox(self.screen, checkbox_x, checkbox_y, self.selected_game_mode == mode)
 
         # Draw the numbered text fields
-        for i, text_field in enumerate(self.text_fields):
+        for i, (text_field, label_text) in enumerate(zip(self.text_fields, [f"#{n+1}" for n in range(10)])):
             # Draw text field rectangle
             pygame.draw.rect(self.screen, (0, 0, 0), (525 * self.scale_factor, (50 + i * (self.label_font_size + self.spacing)) * self.scale_factor, 200 * self.scale_factor, self.label_font_size * self.scale_factor), 2)
 
             # Draw the label for text fields
-            label_text = self.font.render("Team/Player", True, (0, 0, 0))
-            label_text_rect = label_text.get_rect(topleft=(480 * self.scale_factor, 0 * self.scale_factor))  # Adjusted position based on scale factor
-            self.screen.blit(label_text, label_text_rect)
+            label_text_surface = self.font.render(label_text, True, (0, 0, 0))
+            label_text_rect = label_text_surface.get_rect(topleft=(480 * self.scale_factor, (55 + i * (self.label_font_size + self.spacing)) * self.scale_factor))
+            self.screen.blit(label_text_surface, label_text_rect)
 
             # Highlight active text field
             if self.active_text_field == i:
@@ -130,7 +130,7 @@ class MainScreen:
 
             # Render text in the text fields
             text_surface = self.font.render(text_field, True, (0, 0, 0))
-            text_rect = text_surface.get_rect(topleft=((525 + 5) * self.scale_factor, (50 + i * (self.label_font_size + self.spacing)) * self.scale_factor))
+            text_rect = text_surface.get_rect(topleft=((525 + 5) * self.scale_factor, (60 + i * (self.label_font_size + self.spacing)) * self.scale_factor))
             self.screen.blit(text_surface, text_rect)
 
         # Draw buttons with beveled appearance
@@ -160,7 +160,6 @@ class MainScreen:
         self.screen.blit(reset_text, reset_text_rect)
 
         pygame.display.flip()
-
 
 
     def run(self):
