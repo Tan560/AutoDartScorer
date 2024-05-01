@@ -2,6 +2,8 @@ import pygame
 import sys
 from pygame.locals import *
 
+from gameMode import gameMode, gameMode301, gameMode501, gameModeCricket
+
 class MainScreen:
     def __init__(self):
         self.target_width = 1920
@@ -9,7 +11,8 @@ class MainScreen:
         self.screen = pygame.display.set_mode((self.target_width, self.target_height), RESIZABLE)  # Initial resolution
         pygame.display.set_caption("Dart Scoring Game")
 
-        self.selected_game_mode = "301"  # Set the selected game mode to "301"
+        mode = "301"
+        self.selected_game_mode = gameMode301()  # Set the selected game mode to "301"
         self.scale_factor = 1.5  # Scale factor for resizing elements
         self.label_font_size = 36
         self.checkbox_size = 20
@@ -62,9 +65,13 @@ class MainScreen:
                     checkbox_y = (350 + i * (self.label_font_size + self.spacing)) * self.scale_factor
                     if checkbox_x <= mouse_x <= checkbox_x + self.checkbox_size * self.scale_factor and \
                             checkbox_y <= mouse_y <= checkbox_y + self.checkbox_size * self.scale_factor:
-                        self.selected_game_mode = mode
-                        print("Selected mode:", mode)  # For debugging purposes
-
+                        if mode == "301":
+                            self.selected_game_mode = gameMode301()
+                        elif mode == "501":
+                            self.selected_game_mode = gameMode501()
+                        else:
+                            self.selected_game_mode = gameModeCricket()
+                       
                 # Check if mouse click is within the text fields' area
                 for i in range(len(self.text_fields)):
                     text_field_x = 525 * self.scale_factor
@@ -78,7 +85,7 @@ class MainScreen:
                 # Check if mouse click is within the buttons' area
                 if self.start_button_rect.collidepoint(mouse_x, mouse_y):
                     print("Start button clicked")
-                    # Add your start game logic here
+                    self.selected_game_mode.game_mode_screen()
 
                 if self.reset_button_rect.collidepoint(mouse_x, mouse_y):
                     print("Reset button clicked")
@@ -90,7 +97,6 @@ class MainScreen:
                         self.text_fields[self.active_text_field] = self.text_fields[self.active_text_field][:-1]
                     else:
                         self.text_fields[self.active_text_field] += event.unicode
-
 
             elif event.type == VIDEORESIZE:
                 self.screen = pygame.display.set_mode((event.w, event.h), RESIZABLE)
@@ -112,7 +118,8 @@ class MainScreen:
 
             checkbox_x = 100 * self.scale_factor + (self.checkbox_size + 10) * self.scale_factor
             checkbox_y = (350 + i * (self.label_font_size + self.spacing)) * self.scale_factor
-            self.draw_checkbox(self.screen, checkbox_x, checkbox_y, self.selected_game_mode == mode)
+            checked = isinstance(self.selected_game_mode, globals()[f"gameMode{mode}"])
+            self.draw_checkbox(self.screen, checkbox_x, checkbox_y, checked)
 
         # Draw the numbered text fields
         for i, (text_field, label_text) in enumerate(zip(self.text_fields, [f"#{n+1}" for n in range(10)])):
