@@ -2,17 +2,15 @@ import pygame
 import sys
 from pygame.locals import *
 
-from gameMode import gameMode, gameMode301, gameMode501, gameModeCricket
+from gameMode import gameMode301, gameMode501, gameModeCricket
 
 class MainScreen:
     def __init__(self):
         self.target_width = 1920
-        self.target_height = 900
+        self.target_height = 1080
         self.screen = pygame.display.set_mode((self.target_width, self.target_height), RESIZABLE)  # Initial resolution
         pygame.display.set_caption("Dart Scoring Game")
 
-        mode = "301"
-        self.selected_game_mode = gameMode301()  # Set the selected game mode to "301"
         self.scale_factor = 1.5  # Scale factor for resizing elements
         self.label_font_size = 36
         self.checkbox_size = 20
@@ -24,6 +22,9 @@ class MainScreen:
         self.text_fields = ["" for _ in range(10)]
         self.active_text_field = None
 
+        mode = "301"
+        self.selected_game_mode = gameMode301(self.text_fields)   # Set the selected game mode to "301"
+        
         # Button properties
         self.button_width = 120
         self.button_height = 50
@@ -66,11 +67,11 @@ class MainScreen:
                     if checkbox_x <= mouse_x <= checkbox_x + self.checkbox_size * self.scale_factor and \
                             checkbox_y <= mouse_y <= checkbox_y + self.checkbox_size * self.scale_factor:
                         if mode == "301":
-                            self.selected_game_mode = gameMode301()
+                            self.selected_game_mode = gameMode301(self.text_fields)
                         elif mode == "501":
-                            self.selected_game_mode = gameMode501()
+                            self.selected_game_mode = gameMode501(self.text_fields)
                         else:
-                            self.selected_game_mode = gameModeCricket()
+                            self.selected_game_mode = gameModeCricket(self.text_fields)
                        
                 # Check if mouse click is within the text fields' area
                 for i in range(len(self.text_fields)):
