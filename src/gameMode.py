@@ -56,7 +56,9 @@ class gameMode301(gameMode):
             if current_row >= max_rows:
                 break
 
-            team_text = self.font.render(f"{team}: {score}", True, (255, 255, 255))
+            # Instead of rendering text at size 36, render it at a larger size (e.g., 48)
+            team_text = self.font.render(f"{team}: {score}", False, (255, 255, 255))
+
             team_text_rect = team_text.get_rect(topleft=(x_offset + current_col * col_spacing, y_offset + current_row * row_spacing))
             self.screen.blit(team_text, team_text_rect)
 
@@ -80,14 +82,14 @@ class gameMode301(gameMode):
                 elif event.type == MOUSEBUTTONDOWN and event.button == 1 and self.back_button_rect.collidepoint(event.pos):  # Left mouse button clicked
                     running = False
             
-            current_team_text = self.font.render(f"Current Team: {current_team} - Score: {current_score}", True, (255, 255, 255))
+            current_team_text = self.font.render(f"Current Team: {current_team} - Score: {current_score}", False, (255, 255, 255))
             current_team_text_rect = current_team_text.get_rect(center=(self.target_width / 2, 200))
             self.screen.blit(current_team_text, current_team_text_rect)
 
             # Display all teams and their scores
             self.display_teams()
             
-            modeText = self.font.render("Game Mode: 301", True, (0, 255, 0))
+            modeText = self.font.render("Game Mode: 301", False, (0, 255, 0))
             modeText_rect = modeText.get_rect(center=(self.target_width / 2,50))
 
             # Blit the text onto the screen
